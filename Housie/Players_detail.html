@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Players and Ticket</title>
+ </head>
+ <body >
+ <div>	
+	 <input id="playersCount" placeholder="Number of players"></input>
+	 <button onclick="getTextBoxes()" id="enterBtn">Enter names</button>
+	 <button id="getTicketBtn" onclick="getTicket()" style="display:none"> Get tickets</button>
+	 <span id= "linkBtn" style="display:none">
+	 <a href="Players_detail.html" target="_Blank" tabindex=1><button> Start Game </button></a>
+	 </span>
+ </div>
+ <div id="allPlayers">
+ </div>
+ </br>
+ <div>
+	<table id="MasterTable">
+	</table>
+ </div>
+ </body>
+ <script>
+ var rowCount=1;
+ var ip_ticket=[];
+ 
+ function getTicket()
+ {
+	 totalPlayers=document.getElementById("playersCount").value;
+	 for(var i=1;i<=totalPlayers;i++)
+	 {
+		 var playerName=document.getElementById("player "+i).value.trim();
+		 enter_details(playerName, i);		 
+	 }
+	 document.getElementById("allPlayers").style.display="none";
+	 disableElements("getTicketBtn");
+	 enableElements("linkBtn");
+ }
+ 
+ function getTextBoxes()
+ {
+	 totalPlayers=document.getElementById("playersCount").value;
+	 for(var i=0;i<totalPlayers;i++)
+	 {
+		 var ip_field=document.createElement("input");
+		 ip_field.placeholder="Player "+(i+1);
+		 ip_field.id="player "+(i+1);
+		 document.getElementById("allPlayers").appendChild(ip_field);
+		 document.getElementById("allPlayers").appendChild(document.createElement("br"));		 
+
+	 }
+	 enableElements("getTicketBtn");
+	 disableElements("playersCount");
+	 disableElements("enterBtn");
+ }
+ 
+ function enter_details(playerName,playerNo)
+ {
+	 	 
+	 var ChildTableID= "ChildTable "+playerNo;
+	 var cellData=document.createElement("td");
+	 cellData.id=ChildTableID;
+	 document.getElementById("MasterTable").appendChild(cellData);
+
+	 var playerTable= "playerName "+playerNo;
+	 var newTable= document.createElement("table");
+	 newTable.border=2;
+	 newTable.id=playerTable;
+	 document.getElementById(ChildTableID).appendChild(newTable);
+
+	 var nameField=document.createElement("td");
+	 nameField.innerText=playerName;
+	 nameField.style.fontStyle = "bold";
+	 nameField.style.fontStyle.fontSize = "xx-large";
+	 nameField.colSpan="5";
+	 nameField.style.textAlign = "center";
+	 document.getElementById(playerTable).appendChild(nameField);
+
+	 if(playerNo% 5 == 0)
+	 {
+		 var rowData=document.createElement("tr");
+		 rowData.id="row "+rowCount;
+		 document.getElementById("MasterTable").appendChild(rowData);
+	 }
+	 generateTicket(playerTable,playerName, playerNo);
+ }
+
+ function generateTicket(ChildTableID,playerName, playerNo)
+ {
+	 var sort_ticket=[];
+	 var numbers_array=[];
+	 var playerTable= "playerName "+playerNo;
+
+	 for(var i=1;i<=90;i++)
+	 {
+		 ip_ticket[i]=i;
+	 }
+	 ip_ticket.shift();
+	 numbers_array.shift();
+	 
+	 for(var i=0,j=0; numbers_array.length<15;i++)
+	 {
+		 if(i>=9)
+		 {
+			 i=0;
+		 }
+		 else
+		 {
+			 var m=Math.floor(Math.random() *10);
+			 m=m+(i*10);
+			 if(!numbers_array.includes(m))
+			 {
+				 numbers_array[j]=m;
+				 sort_ticket[j++]=ip_ticket[m];
+			 }
+		 } 
+	 }
+	 sort_ticket.sort(function(a, b){return a-b});
+	 
+
+	 for(var i=0;i<15 ;i++ )
+	 {		 
+		 if(i%5==0)
+		 {
+			 var row= document.createElement("tr");
+			 document.getElementById(ChildTableID).appendChild(row);
+		 }
+
+		 var numberField=document.createElement("td");
+		 numberField.innerText=sort_ticket[i];
+		 numberField.style.fontStyle = "bold";
+		 numberField.style.fontStyle.fontSize = "xx-large";
+		 document.getElementById(ChildTableID).appendChild(numberField);
+	 }
+
+ }
+
+ function resetTextFields(fieldName)
+ {
+	 document.getElementById(fieldName).value="";
+ }
+
+ function enableElements()
+ {
+	 for(var i=0;i<arguments.length;i++)
+	 {
+		 document.getElementById(arguments[i]).style.display="block";
+	 }
+ }
+
+ function disableElements()
+ {
+	 for(var i=0;i<arguments.length;i++)
+	 {
+		 document.getElementById(arguments[i]).style.display="none";
+	 }
+ }
+ </script>
+</html>
