@@ -14,7 +14,7 @@
 	 <button onclick="getTextBoxes()" id="enterBtn">Enter names</button>
 	 <button id="getTicketBtn" onclick="getTicket()" style="display:none"> Get tickets</button>
 	 <span id= "linkBtn" style="display:none">
-	 <a href="Players_detail.html" target="_Blank" tabindex=1><button> Lets start </button></a>
+	 <a href="Players_detail.html" target="_Blank" tabindex=1><button> Start Game </button></a>
 	 </span>
  </div>
  <div id="allPlayers">
@@ -37,7 +37,6 @@
 		 var playerName=document.getElementById("player "+i).value.trim();
 		 enter_details(playerName, i);		 
 	 }
-	 //document.getElementById("whatsapplink").style.display="block";
 	 document.getElementById("allPlayers").style.display="none";
 	 disableElements("getTicketBtn");
 	 enableElements("linkBtn");
@@ -129,7 +128,6 @@
 		 if(i%5==0)
 		 {
 			 var row= document.createElement("tr");
-			 //row.style.textAlign = "justify";
 			 document.getElementById(ChildTableID).appendChild(row);
 		 }
 
@@ -138,7 +136,6 @@
 		 numberField.style.fontStyle = "bold";
 		 numberField.style.fontStyle.fontSize = "xx-large";
 		 document.getElementById(ChildTableID).appendChild(numberField);
-
 	 }
 
  }
@@ -162,8 +159,6 @@
 	 {
 		 document.getElementById(arguments[i]).style.display="none";
 	 }
-
-
  }
  </script>
 </html>
