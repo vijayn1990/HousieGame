@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Game-On version 1.0</title>
+ </head>
+ <body onload="start_game()">
+ <div>
+	<!-- Two buttons for starting the game and shuffling the cards-->
+	  <button id="startGameBtn" onclick="start_game()"><b>Start Game</b></button>
+	  <button id="shuffleNumbersBtn" onclick="shuffle_numbers()"><b>Shuffle numbers</b></button>
+	  <a href="index.html" target="_Blank" tabindex=1><button> Quit game </button></a>
+  </div>
+  <br/>
+  	<table border=2>
+		<tr>
+			<td> Seconds left:
+			</td>
+			<td id="timerId" align="center" style="font-size:20px" width=30px ><b>
+			</td>
+			<td>Revealed Number:
+			</td>
+			<td id="revealed_number" colSpan=1 align="center" width=30px>
+			</td>
+		</tr>
+	</table>
+  </div>
+  <br/>
+  <div>
+	<a><button id="timerBtn" onclick="checkTimerStatus()"> Pause Timer</button></a>
+  </div>
+  <br/>
+  <div>
+  <table>
+  <tr>
+	<td>
+	  <table border=2 id="masterTable1">
+		  <tr >
+			<td colSpan="10" align='center'><b> Revealed numbers</b>
+			</td>
+		  </tr>
+	  </table>
+	  </td>
+	  <td>
+	  <table border=2 id="masterTable2">
+		  <tr >
+			<td colSpan="10" align='center'><b> Revealed numbers in the order</b>
+			</td>
+		  </tr>
+	  </table>
+	  </td>
+	 </tr>
+	 </table>
+  </div>
+ </body>
+ <script>
+ var ip_array=[];
+ var op_array=[];
+ var count=0;
+ var numCount=0;
+ var myVar;
+ var timerStatus=0;
+ var seconds=10;
+
+ for(var i=0;i<90;i++)
+	{
+		if(i%10==0)
+		{
+			var row=document.createElement("tr");
+			var row2=document.createElement("tr");
+			document.getElementById("masterTable1").appendChild(row);
+			document.getElementById("masterTable2").appendChild(row2);
+		}
+		var cell=document.createElement("td");
+		cell.innerText=(i+1);
+		cell.id=(i+1);
+		cell.style.color="white";
+		cell.style.fontSize = "xx-large";
+		cell.style.fontStyle = "bold";
+		document.getElementById("masterTable1").appendChild(cell);
+
+		var cell2=document.createElement("td");
+		cell2.innerText=(i+1);
+		cell2.id="childTableCell"+(i+1);
+		cell2.style.color="white";
+		cell2.style.fontSize = "xx-large";
+		document.getElementById("masterTable2").appendChild(cell2);
+	}
+
+ function start_game()
+ {
+	 ip=90;
+	 for(var i=1;i<=ip;i++)
+	 {
+		 ip_array[i]=i;
+	 }
+	 ip_array.shift();
+	 op_array.shift();
+	 op_array=ip_array;
+	 document.getElementById("startGameBtn").style.display="none";
+	 shuffle_numbers();
+ }
+
+ function checkTimerStatus()
+ {
+	 
+	 if(timerStatus==0)
+	 {
+		 startTimer();
+		 document.getElementById("timerBtn").innerText="Pause Timer";
+		 document.getElementById("timerBtn").style.fontStyle = "bold";
+	 }
+	 else
+	 {
+		 stopTimer();
+		 document.getElementById("timerBtn").innerText="Resume Timer";
+		 document.getElementById("timerBtn").style.fontStyle = "bold";
+	 }
+ }
+
+ function shuffle_numbers()
+ {
+	 if(timerStatus==1)
+	 {
+		 stopTimer();
+	 }
+	 for(var i=0;i<(ip_array.length-count);i++)
+	 {
+		 m=Math.floor(Math.random() * (ip_array.length-count));
+		 n=Math.floor(Math.random() * (ip_array.length-count));
+		 
+		 if((m>=count && n>=count))
+		 {
+			 if(m>n || m<n)
+			 {
+				 var k=op_array[m];
+				 op_array[m]=op_array[n];
+				 op_array[n]=k;
+			}
+		}
+		else
+		{
+		}
+	 }
+	 if(timerStatus==0)
+	 {
+		 startTimer();
+	 }
+ }
+ 
+ function reveal_number()
+ {
+	 if(count>=op_array.length)
+	 {
+		clearTimeout(myVar);
+		alert("Sorry game over");
+		close;
+	 }
+	 else
+	 {
+		 /*
+		 document.getElementById("revealed_number").innerText=op_array[count];
+		 document.getElementById("revealed_number").style.fontSize = "xx-large";
+		 document.getElementById("revealed_number").style.fontStyle = "bold";
+		 document.getElementById("revealed_number").width="30px";
+		 var data=document.createElement("td");
+		 data.style.fontSize = "xx-large";
+		 data.style.fontStyle = "bold";
+		 data.style.textAlign="center";
+
+		 data.innerText=op_array[count];
+		 document.getElementById("masterTable2").appendChild(data);
+		 document.getElementById(op_array[count]).style.color="black";
+		 count++;
+		 numCount++;
+		 if(count%10==0)
+		 {
+			 var row= document.createElement("tr");
+			 document.getElementById("masterTable2").appendChild(row);
+		 }
+
+		 if(count%5==0)
+		 {
+			 shuffle_numbers();
+		 }
+		 */
+
+		 document.getElementById("revealed_number").innerText=op_array[count];
+		 document.getElementById("revealed_number").style.fontSize = "20px";
+		 //document.getElementById("revealed_number").width="30px";
+
+		 document.getElementById("childTableCell"+(count+1)).innerText=op_array[count];
+		 document.getElementById(op_array[count]).style.color="black";
+		 document.getElementById(op_array[count]).style.textAlign="center";
+		 document.getElementById("childTableCell"+(count+1)).style.color="black";
+		 document.getElementById("childTableCell"+(count+1)).style.textAlign="center";
+		 count++;
+		 numCount++;
+		 if(count%5==0)
+		 {
+			 shuffle_numbers();
+		 }
+
+	 }
+ }
+
+ function startTimer()
+ {
+	 if(timerStatus==0)
+	 {
+		 myVar= setInterval(showSeconds, 1000);
+		 timerStatus=1;
+	 }
+
+ }
+
+ function stopTimer()
+ {
+	 if(timerStatus==1)
+	 {
+		 clearTimeout(myVar);
+		 timerStatus=0;
+	 }
+
+ }
+
+ function showSeconds()
+ {
+	 if(seconds<0)
+	 {
+		 document.getElementById("timerId").innerText=seconds;
+		 reveal_number();
+		 seconds=10;
+	 }
+	 document.getElementById("timerId").innerText=seconds--;
+ }
+ </script>
+</html>
