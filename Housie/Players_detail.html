@@ -1,164 +1,208 @@
 <!doctype html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
-  <title>Players and Ticket</title>
- </head>
- <body >
- <div>	
-	 <input id="playersCount" placeholder="Number of players"></input>
-	 <button onclick="getTextBoxes()" id="enterBtn">Enter names</button>
-	 <button id="getTicketBtn" onclick="getTicket()" style="display:none"> Get tickets</button>
-	 <span id= "linkBtn" style="display:none">
-	 <a href="game_On.html" target="_Blank" tabindex=1><button> Start Game </button></a>
-	 </span>
- </div>
- <div id="allPlayers">
- </div>
- </br>
- <div>
-	<table id="MasterTable">
-	</table>
- </div>
- </body>
- <script>
- var rowCount=1;
- var ip_ticket=[];
- 
- function getTicket()
- {
-	 totalPlayers=document.getElementById("playersCount").value;
-	 for(var i=1;i<=totalPlayers;i++)
-	 {
-		 var playerName=document.getElementById("player "+i).value.trim();
-		 enter_details(playerName, i);		 
-	 }
-	 document.getElementById("allPlayers").style.display="none";
-	 disableElements("getTicketBtn");
-	 enableElements("linkBtn");
- }
- 
- function getTextBoxes()
- {
-	 totalPlayers=document.getElementById("playersCount").value;
-	 for(var i=0;i<totalPlayers;i++)
-	 {
-		 var ip_field=document.createElement("input");
-		 ip_field.placeholder="Player "+(i+1);
-		 ip_field.id="player "+(i+1);
-		 document.getElementById("allPlayers").appendChild(ip_field);
-		 document.getElementById("allPlayers").appendChild(document.createElement("br"));		 
 
-	 }
-	 enableElements("getTicketBtn");
-	 disableElements("playersCount");
-	 disableElements("enterBtn");
- }
- 
- function enter_details(playerName,playerNo)
- {
-	 	 
-	 var ChildTableID= "ChildTable "+playerNo;
-	 var cellData=document.createElement("td");
-	 cellData.id=ChildTableID;
-	 document.getElementById("MasterTable").appendChild(cellData);
+<head>
+	<meta charset="UTF-8">
+	<meta name="Generator" content="EditPlus®">
+	<meta name="Author" content="">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<title>Players and Ticket</title>
+</head>
 
-	 var playerTable= "playerName "+playerNo;
-	 var newTable= document.createElement("table");
-	 newTable.border=2;
-	 newTable.id=playerTable;
-	 document.getElementById(ChildTableID).appendChild(newTable);
+<body>
+	<div>
+		<input id="playersCount" placeholder="Number of players"></input>
+		<button onclick="getTextBoxes()" id="enterBtn">Enter names</button>
+		<button id="getTicketBtn" onclick="getTicket()" style="display:none"> Get tickets</button>
+	</div>
 
-	 var nameField=document.createElement("td");
-	 nameField.innerText=playerName;
-	 nameField.style.fontStyle = "bold";
-	 nameField.style.fontStyle.fontSize = "xx-large";
-	 nameField.colSpan="5";
-	 nameField.style.textAlign = "center";
-	 document.getElementById(playerTable).appendChild(nameField);
+	<div id="allPlayers">
+	</div>
+	<br/>
+	<br/>
 
-	 if(playerNo% 5 == 0)
-	 {
-		 var rowData=document.createElement("tr");
-		 rowData.id="row "+rowCount;
-		 document.getElementById("MasterTable").appendChild(rowData);
-	 }
-	 generateTicket(playerTable,playerName, playerNo);
- }
+	<div>
+		<table id="MasterTable">
+		</table>
+	</div>
+</body>
+<script>
+	var rowCount = 1;
+	var ip_ticket = [];
 
- function generateTicket(ChildTableID,playerName, playerNo)
- {
-	 var sort_ticket=[];
-	 var numbers_array=[];
-	 var playerTable= "playerName "+playerNo;
+	function getTicket() {
+		totalPlayers = document.getElementById("playersCount").value;
+		for (var i = 1; i <= totalPlayers; i++) {
+			var playerName = document.getElementById("player " + i).value.trim();
 
-	 for(var i=1;i<=90;i++)
-	 {
-		 ip_ticket[i]=i;
-	 }
-	 ip_ticket.shift();
-	 numbers_array.shift();
-	 
-	 for(var i=0,j=0; numbers_array.length<15;i++)
-	 {
-		 if(i>=9)
-		 {
-			 i=0;
-		 }
-		 else
-		 {
-			 var m=Math.floor(Math.random() *10);
-			 m=m+(i*10);
-			 if(!numbers_array.includes(m))
-			 {
-				 numbers_array[j]=m;
-				 sort_ticket[j++]=ip_ticket[m];
-			 }
-		 } 
-	 }
-	 sort_ticket.sort(function(a, b){return a-b});
-	 
+			enter_details(playerName, i);
+		}
+		
+		document.getElementById("allPlayers").style.display = "none";
+	}
 
-	 for(var i=0;i<15 ;i++ )
-	 {		 
-		 if(i%5==0)
-		 {
-			 var row= document.createElement("tr");
-			 document.getElementById(ChildTableID).appendChild(row);
-		 }
+	function getTextBoxes() {
+		totalPlayers = document.getElementById("playersCount").value;
+		for (var i = 0; i < totalPlayers; i++) {
+			var ip_field = document.createElement("input");
+			ip_field.placeholder = "Player " + (i + 1);
+			ip_field.id = "player " + (i + 1);
+			document.getElementById("allPlayers").appendChild(ip_field);
+			document.getElementById("allPlayers").appendChild(document.createElement("br"));
+		}
+		enableElements("getTicketBtn");
+	}
 
-		 var numberField=document.createElement("td");
-		 numberField.innerText=sort_ticket[i];
-		 numberField.style.fontStyle = "bold";
-		 numberField.style.fontStyle.fontSize = "xx-large";
-		 document.getElementById(ChildTableID).appendChild(numberField);
-	 }
+	function enter_details(playerName, playerNo) {
 
- }
+		var ChildTableID = "ChildTable " + playerNo;
+		var cellData = document.createElement("td");
+		cellData.id = ChildTableID;
+		document.getElementById("MasterTable").appendChild(cellData);
 
- function resetTextFields(fieldName)
- {
-	 document.getElementById(fieldName).value="";
- }
+		var playerTable = "playerName " + playerNo;
+		var newTable = document.createElement("table");
+		newTable.border = 2;
+		newTable.id = playerTable;
+		document.getElementById(ChildTableID).appendChild(newTable);
 
- function enableElements()
- {
-	 for(var i=0;i<arguments.length;i++)
-	 {
-		 document.getElementById(arguments[i]).style.display="block";
-	 }
- }
+		var nameField = document.createElement("td");
+		nameField.innerText = playerName;
+		nameField.style.fontStyle = "bold";
+		nameField.style.fontStyle.fontSize = "xx-large";
+		nameField.colSpan = "9";
+		nameField.style.textAlign = "center";
+		document.getElementById(playerTable).appendChild(nameField);
 
- function disableElements()
- {
-	 for(var i=0;i<arguments.length;i++)
-	 {
-		 document.getElementById(arguments[i]).style.display="none";
-	 }
- }
- </script>
+
+		if (playerNo % 3 == 0) {
+			var rowData = document.createElement("tr");
+			rowData.id = "row " + rowCount;
+			document.getElementById("MasterTable").appendChild(rowData);
+		}
+		loadEmptyTable(playerTable);
+		generateTicket(playerTable);
+	}
+
+	function loadEmptyTable(playerTable) {
+		document.getElementById(playerTable).appendChild(document.createElement("tr"));
+		for (var i = 1; i <= 3; i++) {
+			for (var j = 1; j <= 9; j++) {
+				let cell = document.createElement("td");
+				cell.id = playerTable+ i + j;
+				cell.style.width = "20px";
+				document.getElementById(playerTable).appendChild(cell);
+			}
+			document.getElementById(playerTable).appendChild(document.createElement("tr"));
+		}
+	}
+	function generateTicket(playerTable) {
+		let sort_ticket = [];
+		let numbers_array = [];
+		let ip_ticket = [];
+		let randomPlaceArray = [];
+
+		for (i = 1; i <= 9; i++) {
+			randomPlaceArray[i] = 0;
+		}
+		for (var i = 1; i <= 90; i++) {
+			ip_ticket[i] = i;
+		}
+		ip_ticket.shift();
+		numbers_array.shift();
+		sort_ticket.shift();
+		randomPlaceArray.shift();
+
+		for (var i = 0, j = 0; numbers_array.length < 15; i++) {
+			if (i >= 9) {
+				i = 0;
+			}
+
+			var m = Math.floor(Math.random() * 10);
+			if (m != 0) {
+				m = m + (i * 10);
+				z = Math.floor(m / 10);
+				let num = randomPlaceArray[z];
+				if (num < 2) {
+					if (!numbers_array.includes(m)) {
+						numbers_array[j] = m;
+						sort_ticket[j++] = ip_ticket[m] - 1;
+						randomPlaceArray[z] = randomPlaceArray[z] + 1;
+					}
+				}
+			}
+		}
+		displayNumbers(playerTable, sort_ticket, randomPlaceArray);
+	}
+	function displayNumbers(playerTable, sort_ticket, randomPlaceArray) 
+	{
+		let rowNo = 1;
+		for (var i = 0; i <15; i++) {
+			let n = Math.floor(sort_ticket[i] / 10);
+			let columnNo;
+			switch (Number(n)) {
+				case 0: columnNo = 1;
+					break;
+				case 1: columnNo = 2;
+					break;
+				case 2: columnNo = 3;
+					break;
+				case 3: columnNo = 4;
+					break;
+				case 4: columnNo = 5;
+					break;
+				case 5: columnNo = 6;
+					break;
+				case 6: columnNo = 7;
+					break;
+				case 7: columnNo = 8;
+					break;
+				case 8: columnNo = 9;
+					break;
+				case 9: columnNo = 9;
+					break;
+			}
+
+			if (document.getElementById( playerTable+ rowNo + columnNo ).innerText == "") {
+				document.getElementById( playerTable+ rowNo + columnNo ).innerText = sort_ticket[i];
+				document.getElementById( playerTable+ rowNo + columnNo ).style.color = "black";
+			}
+			else if (document.getElementById(playerTable+(rowNo + 1) +columnNo).innerText == "") {
+				document.getElementById(playerTable+(rowNo + 1) +columnNo).innerText = sort_ticket[i];
+				document.getElementById(playerTable+(rowNo + 1) +columnNo).style.color = "black";
+			}
+			else {
+				document.getElementById(playerTable+(rowNo + 2) +columnNo).innerText = sort_ticket[i];
+				document.getElementById(playerTable+(rowNo + 2) +columnNo).style.color = "black";
+			}
+
+			if ((i + 1) % 5 == 0) {
+				rowNo++;
+
+			}
+		}
+	}
+
+
+
+	function resetTextFields(fieldName) {
+		document.getElementById(fieldName).value = "";
+	}
+
+	function enableElements() {
+		for (var i = 0; i < arguments.length; i++) {
+			document.getElementById(arguments[i]).style.display = "block";
+		}
+	}
+
+	function disableElements() {
+		for (var i = 0; i < arguments.length; i++) {
+			document.getElementById(arguments[i]).style.display = "none";
+		}
+
+
+	}
+</script>
+
 </html>
