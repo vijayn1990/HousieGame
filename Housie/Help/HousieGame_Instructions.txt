@@ -1,3 +1,9 @@
+Pre-requisites:
+1. Download all the files to a single folder.
+2. Create one more folder in this folder and name it "images".
+3. Copy the image file (housie_logo) to folder "images".
+
+Running the game:
 Phase-1
 1. Run the "index.html" file in google chrome/Mozilla. 
 2. Click on "Lets Start" button to proceed.
@@ -9,10 +15,10 @@ Phase-2
 
 Phase-3
 1. Once all the players are ready, click on "Start Game"
-2. Game starts with timer running displaying 15 seconds and a new number will be revealed.
+2. Game starts with timer running displaying 10 seconds and a new number will be revealed.
 3. Players can tick mark/circle the number if it is present in their sheet.
-4. For every 15 seconds a new number is revealed.
-5. Click on Pause button if you want to pause the game.
+4. For every 1o seconds a new number is revealed.
+5. Click on Pause/Resume button if you want to pause/resume the game.
 
 Key points to note:
 1. There will be 2 tables below the "Reveal the number" button. The left table will show the revealed number in the table where it belongs (from 1-90).
